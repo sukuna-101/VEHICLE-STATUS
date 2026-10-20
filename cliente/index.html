@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEHICLE STATUS · Cliente</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous">
+  <link rel="stylesheet" href="../assets/css/variables.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/layout.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/responsive.css">
+</head>
+<body>
+
+  <div id="login-screen" class="login-screen">
+    <div class="login-card">
+      <div class="login-brand">
+        <div class="login-logo">VS</div>
+        <h1>Portal Cliente</h1>
+        <p>Só os seus seriais · com senha</p>
+      </div>
+      <form id="form-login">
+        <div class="form-group"><label for="login-username">Usuário</label><input id="login-username" class="input" required></div>
+        <div class="form-group"><label for="login-password">Senha</label><input id="login-password" type="password" class="input" required></div>
+        <p id="login-error" class="login-error" role="alert"></p>
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:0.9rem"><i class="fa-solid fa-right-to-bracket"></i> Entrar</button>
+      </form>
+      <div class="login-hints">Demo: <code>cliente</code> / <code>cli123</code><br>Vê apenas registros do nome vinculado (ex.: MARCIO BRITO).</div>
+    </div>
+  </div>
+
+  <div id="app-shell" class="hidden">
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="brand">
+          <div class="brand-logo">VS</div>
+          <div>
+            <h1 class="brand-title">VEHICLE STATUS <span class="portal-badge portal-cliente">Cliente</span></h1>
+            <p class="brand-sub">Garantia · <span id="app-version"></span></p>
+          </div>
+        </div>
+        <div class="header-actions">
+          <div class="search-wrap">
+            <input id="search-input" type="search" class="input" placeholder="Serial, cliente, telefone…" autocomplete="off">
+          </div>
+          <button type="button" id="btn-buscar" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
+          <button type="button" id="btn-limpar-busca" class="btn btn-ghost"><i class="fa-solid fa-xmark"></i></button>
+
+          <div class="user-chip"><i class="fa-solid fa-user"></i> <span id="user-label">—</span></div>
+          <button type="button" id="btn-logout" class="btn btn-ghost" title="Sair"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+        </div>
+      </div>
+    </header>
+    <main class="main">
+      <section class="kpi-grid">
+        <div class="kpi-card"><span class="kpi-label">Total</span><span class="kpi-value" id="kpi-total">—</span></div>
+        <div class="kpi-card ok"><span class="kpi-label">Liberados</span><span class="kpi-value" id="kpi-liberado">—</span></div>
+        <div class="kpi-card warn"><span class="kpi-label">A Vencer</span><span class="kpi-value" id="kpi-avencer">—</span></div>
+        <div class="kpi-card danger"><span class="kpi-label">Vencidos</span><span class="kpi-value" id="kpi-vencido">—</span></div>
+        <div class="kpi-card info"><span class="kpi-label">Próx. 7 dias</span><span class="kpi-value" id="kpi-7dias">—</span></div>
+        <div class="kpi-card info"><span class="kpi-label">Próx. 30 dias</span><span class="kpi-value" id="kpi-30dias">—</span></div>
+      </section>
+      <div class="toolbar">
+        <div class="filter-group">
+          <button type="button" class="filter-btn active" data-filter-status="todos">Todos</button>
+          <button type="button" class="filter-btn" data-filter-status="liberado">Liberado</button>
+          <button type="button" class="filter-btn" data-filter-status="avencer">A Vencer</button>
+          <button type="button" class="filter-btn" data-filter-status="vencido">Vencido</button>
+          <button type="button" class="filter-btn" data-filter-status="revisao">Revisão</button>
+        </div>
+        <select id="filtro-equipamento" class="select"><option value="todos">Todos os equipamentos</option></select>
+        <select id="ordenar-por" class="select">
+          <option value="vencimento">Vencimento</option>
+          <option value="data">Cadastro</option>
+          <option value="nome">Cliente</option>
+          <option value="serial">Serial</option>
+        </select>
+        <button type="button" id="btn-direcao" class="btn btn-ghost"><i class="fa-solid fa-arrow-up-short-wide"></i></button>
+      </div>
+      <section class="glass table-panel">
+        <div class="table-header">
+          <h2 style="font-size:1.15rem;color:#fff">Lista de Clientes</h2>
+          <span id="contagem" class="text-muted" style="font-family:var(--font-mono);font-size:0.85rem">—</span>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead><tr>
+              <th>Serial</th><th>Cliente</th><th>Equipamento</th><th>Cadastro</th>
+              <th>Vencimento</th><th style="text-align:center">Status</th><th>Telefone</th><th style="text-align:center">Ações</th>
+            </tr></thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+        <div id="paginacao"></div>
+      </section>
+    </main>
+  </div>
+
+  <div id="modal-detalhe" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-panel" onclick="event.stopPropagation()">
+      <h3 style="font-size:1.3rem;margin-bottom:1.2rem">Detalhes do Registro</h3>
+      <dl id="detalhe-body"></dl>
+      <div class="form-actions">
+        <button type="button" class="btn btn-ghost" data-close-modal="modal-detalhe" style="flex:1">Fechar</button>
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    import { startSite } from '../assets/js/boot.js';
+    import { ROLES } from '../assets/js/config.js';
+    startSite(ROLES.CLIENTE);
+  </script>
+</body>
+</html>

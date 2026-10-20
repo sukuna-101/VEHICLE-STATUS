@@ -1,0 +1,33 @@
+:root {
+  --bg-base: #060608;
+  --bg-elevated: #0f0f12;
+  --bg-surface: rgba(18, 18, 22, 0.92);
+  --bg-hover: #1a1a22;
+  --bg-card: linear-gradient(145deg, #141418 0%, #0c0c10 100%);
+  --border: #2a2a35;
+  --border-light: #3d3d4a;
+  --text: #ececf0;
+  --text-muted: #9a9aad;
+  --text-dim: #6b6b7b;
+  --accent: #f4f4f5;
+  --accent-fg: #0a0a0c;
+  --brand: #6366f1;
+  --brand-soft: rgba(99, 102, 241, 0.15);
+  --status-ok: #34d399;
+  --status-warn: #fbbf24;
+  --status-danger: #f87171;
+  --status-review: #a78bfa;
+  --radius-sm: 0.625rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1.25rem;
+  --radius-xl: 1.5rem;
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+  --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.3);
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-mono: ui-monospace, 'Cascadia Code', monospace;
+  --transition: 0.2s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  :root { --transition: 0s; }
+}

@@ -1,31 +1,42 @@
-# VEHICLE STATUS 2.2 — 4 portais separados
+# VEHICLE STATUS 2.2
 
-Sistema de garantia com **4 sites distintos** e **a mesma base de dados** (IndexedDB no navegador).
+Sistema de garantia veicular com **4 portais separados** que compartilham a **mesma base de dados** (IndexedDB no navegador).
 
 Alterações feitas no **Admin** ou no **Técnico** aparecem automaticamente nos outros portais (mesma origem HTTP).
 
 ---
 
+## 🌐 Demo online
+
+| Portal      | Link |
+| ----------- | ---- |
+| **Admin**   | https://sukuna-101.github.io/VEHICLE-STATUS/admin/ |
+| **Técnico** | https://sukuna-101.github.io/VEHICLE-STATUS/tecnico/ |
+| **Usuário** | https://sukuna-101.github.io/VEHICLE-STATUS/usuario/ |
+| **Cliente** | https://sukuna-101.github.io/VEHICLE-STATUS/cliente/ |
+
+Hub de entrada: https://sukuna-101.github.io/VEHICLE-STATUS/
+
+---
+
 ## Portais
 
-| Portal | URL | Senha? | Poderes |
-|--------|-----|--------|---------|
-| **Admin** | `/admin/` | Sim | Criar, editar todos, excluir, import/export, gerir usuários |
-| **Técnico** | `/tecnico/` | Sim | Criar e editar **somente os que ele cadastrou**; **não** pode apagar |
+| Portal      | URL         | Senha?  | Poderes |
+| ----------- | ----------- | ------- | ------- |
+| **Admin**   | `/admin/`   | Sim     | Criar, editar todos, excluir, import/export, gerir usuários |
+| **Técnico** | `/tecnico/` | Sim     | Criar e editar **somente os que ele cadastrou**; **não** pode apagar |
 | **Usuário** | `/usuario/` | **Não** | Só visualizar todos os registros |
-| **Cliente** | `/cliente/` | Sim | Só visualizar seriais cujo **nome** bate com o vinculado à conta |
-
-Hub de entrada: `/` (escolhe o portal).
+| **Cliente** | `/cliente/` | Sim     | Só visualizar seriais cujo **nome** bate com o vinculado à conta |
 
 ---
 
 ## Contas demo (com senha)
 
-| Portal | Usuário | Senha |
-|--------|---------|-------|
-| Admin | `admin` | `admin123` |
-| Técnico | `tecnico` | `tec123` |
-| Cliente | `cliente` | `cli123` (vê registros “MARCIO BRITO”) |
+| Portal  | Usuário   | Senha      | Observação |
+| ------- | --------- | ---------- | ---------- |
+| Admin   | `admin`   | `admin123` | Acesso total |
+| Técnico | `tecnico` | `tec123`   | Só edita o que cadastrou |
+| Cliente | `cliente` | `cli123`   | Vê registros “MARCIO BRITO” |
 
 **Usuário** abre direto, sem login.
 
@@ -33,28 +44,8 @@ O Admin pode criar mais contas de Admin, Técnico ou Cliente (todas com senha). 
 
 ---
 
-## Como executar
+## Como executar localmente
 
 ```bash
 cd VEHICLE-STATUS
 python3 -m http.server 8080
-```
-
-Abra http://localhost:8080
-
-Os 4 portais precisam do **mesmo host/porta** para compartilhar o IndexedDB.
-
----
-
-## Regras de status
-
-| Estado | Critério |
-|--------|----------|
-| LIBERADO | > 30 dias até o vencimento |
-| A VENCER | 0 a 30 dias |
-| VENCIDO | data já passou |
-| REVISÃO | data inválida/ausente |
-
----
-
-## VEHICLE STATUS 2.2
